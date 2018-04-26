@@ -44,7 +44,8 @@ public class Main {
             a4.backtrack(puzzle);
         }
         else if (command.equals("5")){
-
+            Algorithm5 a5 = new Algorithm5();
+            a5.backtrack(puzzle);
         }
         else
             System.out.println("Invalid command");

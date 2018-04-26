@@ -2,7 +2,7 @@ package AIproject;
 
 import java.util.*;
 
-public class Algorithm4 {
+public class Algorithm5 {
     ///////////////////////////////////////////////////
     //backtrack algorithm and some assistant function
     ///////////////////////////////////////////////////
@@ -36,30 +36,35 @@ public class Algorithm4 {
         //preprocess AC3 consistency check
         AC3_check(hm);
 
-        for (int i: hm.get(row*9+col))
-        {
-            if (moveIsValid(puzzle, row, col, i) && !FC_checkEmpty(hm))
+        //get into solve
+        LinkedList<Integer> sortedKey = findLCV(puzzle);
+        while(sortedKey.peekFirst() != null) {
+            int i = sortedKey.pollFirst();
+            if (hm.get(row * 9 + col).contains(i))
             {
-                //place this value in puzzle
-                puzzle[row][col] = i;
-                HashMap<Integer, ArrayList<Integer>> hm2 = new HashMap<Integer, ArrayList<Integer>>();
-                hm2 = copy(hm);
-                FC_add(row, col, i, hm2);
+                if (moveIsValid(puzzle, row, col, i) && !FC_checkEmpty(hm))
+                {
+                    //place this value in puzzle
+                    puzzle[row][col] = i;
+                    HashMap<Integer, ArrayList<Integer>> hm2 = new HashMap<Integer, ArrayList<Integer>>();
+                    hm2 = copy(hm);
+                    FC_add(row, col, i, hm2);
 
-                //find next MRV
-                int count = findNextMRV(hm2);
+                    //find next MRV
+                    int count = findNextMRV(hm2);
 
-                //if MRV is done, find next empty
-                if (count < 0)
-                    count = findNextEmpty(puzzle);
+                    //if MRV is done, find next empty
+                    if (count < 0)
+                        count = findNextEmpty(puzzle);
 
-                //if solved, then stop and return true
-                if (solve(puzzle, count/puzzle.length, count%puzzle.length, hm2))
-                    return true;
+                    //if solved, then stop and return true
+                    if (solve(puzzle, count / puzzle.length, count % puzzle.length, hm2))
+                        return true;
 
-                //if unsolved, then undo
-                puzzle[row][col] = 0;
-                this.backtrackcount++;
+                    //if unsolved, then undo
+                    puzzle[row][col] = 0;
+                    this.backtrackcount++;
+                }
             }
         }
         return false;
@@ -257,5 +262,40 @@ public class Algorithm4 {
         }
 
         return key;
+    }
+
+    ///////////////////////////////////////////////////
+    //LCV and some assistant function
+    ///////////////////////////////////////////////////
+    public LinkedList<Integer> findLCV(int[][] puzzle)
+    {
+        //calculate the existing elements' frequence
+        int[] frq = new int[10];
+        for(int i = 0; i < 81; i++)
+        {
+            if (puzzle[i/puzzle.length][i%puzzle.length] != 0)
+                frq[puzzle[i/puzzle.length][i%puzzle.length]]++;
+        }
+
+        //sort the frequence
+        int[] sortedFrq = new int[10];
+        System.arraycopy(frq,0,sortedFrq,0,10);
+        Arrays.sort(sortedFrq);
+        HashSet<Integer> sortedFrqHS = new HashSet<Integer>();
+        for(int i = 1; i < sortedFrq.length; i++)
+            sortedFrqHS.add(sortedFrq[i]);
+
+        //generate the sorted key
+        LinkedList<Integer> sortedKey = new LinkedList<Integer>();
+        for(int i: sortedFrqHS)
+        {
+            for (int j = 0; j < frq.length; j++)
+            {
+                if(frq[j] == i) {
+                    sortedKey.addFirst(j);
+                }
+            }
+        }
+        return sortedKey;
     }
 }
