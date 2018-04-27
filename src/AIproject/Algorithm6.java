@@ -8,12 +8,15 @@ public class Algorithm6 {
     ///////////////////////////////////////////////////
     public boolean annealing(int[][] puzzle)
     {
-        fillingAll(puzzle);
-        solve(puzzle);
+        //locate existing elements, make a record and prevent future flip
+        HashSet<Integer> EEhs = new HashSet<Integer>();
+
+        fillingAll(puzzle, EEhs);
+        solve(puzzle, EEhs);
         return true;
     }
 
-    public boolean solve(int[][] puzzle)
+    public boolean solve(int[][] puzzle, HashSet<Integer> EEhs)
     {
         while(evaluateBoard(puzzle) != 0)
         {
@@ -24,8 +27,13 @@ public class Algorithm6 {
             int fliprow2 = randomGenerator(0, 8);
             int flipcol1 = randomGenerator(0, 8);
             int flipcol2 = randomGenerator(0, 8);
-            while (fliprow1 == fliprow2 && flipcol1 == flipcol2)
+            while ( (fliprow1 == fliprow2 && flipcol1 == flipcol2) ||
+                EEhs.contains(fliprow1*9+flipcol1) ||
+                EEhs.contains(fliprow2*9+flipcol2) )
+            {
+                flipcol1 = randomGenerator(0, 8);
                 flipcol2 = randomGenerator(0, 8);
+            }
 
             //flip the grid
             int temp = puzzle[fliprow1][flipcol1];
@@ -44,7 +52,7 @@ public class Algorithm6 {
         return true;
     }
 
-    public void fillingAll(int[][] puzzle)
+    public void fillingAll(int[][] puzzle, HashSet<Integer> EEhs)
     {
         //create a collection that contains 1-9 values on 9 times
         HashMap<Integer, LinkedList<Integer>> elementHM = new HashMap<Integer, LinkedList<Integer>>();
@@ -59,8 +67,12 @@ public class Algorithm6 {
         //delete existing element in puzzle
         for(int i = 0; i < (puzzle.length*puzzle[0].length); i++)
         {
-            if(puzzle[i/puzzle.length][i%puzzle.length] != 0)
-                elementHM.get(puzzle[i/puzzle.length][i%puzzle.length]).poll();
+            if(puzzle[i/puzzle.length][i%puzzle.length] != 0) {
+                elementHM.get(puzzle[i / puzzle.length][i % puzzle.length]).poll();
+
+                //add i to existing elements Hash Set
+                EEhs.add(i);
+            }
         }
 
         //push all elements into 1 Arraylist
