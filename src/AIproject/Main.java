@@ -24,7 +24,7 @@ public class Main {
 
         //run the algorithm
         Scanner in = new Scanner(System.in);
-        System.out.println("Please select the algorithm to run (choose from 1-5): ");
+        System.out.println("Please select the algorithm to run (choose from 1-6): ");
         String command = in.nextLine();
         startTime = System.nanoTime();
         if (command.equals("1")) {
@@ -46,6 +46,10 @@ public class Main {
         else if (command.equals("5")){
             Algorithm5 a5 = new Algorithm5();
             a5.backtrack(puzzle);
+        }
+        else if (command.equals("6")){
+            Algorithm6 a6 = new Algorithm6();
+            a6.annealing(puzzle);
         }
         else
             System.out.println("Invalid command");
