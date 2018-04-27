@@ -12,15 +12,17 @@ public class Algorithm6 {
         HashSet<Integer> EEhs = new HashSet<Integer>();
 
         fillingAll(puzzle, EEhs);
-        solve(puzzle, EEhs);
+        solve(puzzle, EEhs, 0.5);
         return true;
     }
 
-    public boolean solve(int[][] puzzle, HashSet<Integer> EEhs)
+    public boolean solve(int[][] puzzle, HashSet<Integer> EEhs, double T)
     {
         while(evaluateBoard(puzzle) != 0)
         {
             int currentScore = evaluateBoard(puzzle);
+            System.out.println("current score is: " + currentScore);
+            System.out.println("current T is: " + T);
 
             //generate the flip row and column
             int fliprow1 = randomGenerator(0, 8);
@@ -40,13 +42,17 @@ public class Algorithm6 {
             puzzle[fliprow1][flipcol1] = puzzle[fliprow2][flipcol2];
             puzzle[fliprow2][flipcol2] = temp;
 
-            //compare score, if new score is larger, flip back
+            //compare score, if new score is larger (conditional), flip back
             int nextScore = evaluateBoard(puzzle);
-            if (nextScore > currentScore) {
+            if (Math.exp((currentScore-nextScore)/T) < (((double)randomGenerator(0,1000))/1000))
+            //if (nextScore > currentScore)
+            {
                 int temp2 = puzzle[fliprow1][flipcol1];
                 puzzle[fliprow1][flipcol1] = puzzle[fliprow2][flipcol2];
                 puzzle[fliprow2][flipcol2] = temp2;
             }
+
+            T = T*0.9999;
         }
 
         return true;
