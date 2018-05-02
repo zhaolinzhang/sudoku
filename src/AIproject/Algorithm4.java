@@ -14,7 +14,7 @@ public class Algorithm4 {
         FC_initialize(puzzle, hm);
 
         //find next MRV
-        int count = findNextMRV(hm);
+        int count = findNextMRV(hm, puzzle);
 
         //if MRV is done, find next empty
         if (count < 0)
@@ -47,7 +47,7 @@ public class Algorithm4 {
                 FC_add(row, col, i, hm2);
 
                 //find next MRV
-                int count = findNextMRV(hm2);
+                int count = findNextMRV(hm2, puzzle);
 
                 //if MRV is done, find next empty
                 if (count < 0)
@@ -236,7 +236,7 @@ public class Algorithm4 {
     ///////////////////////////////////////////////////
     //MRV and some assistant function
     ///////////////////////////////////////////////////
-    public int findNextMRV(HashMap<Integer, ArrayList<Integer>> hm)
+    public int findNextMRV(HashMap<Integer, ArrayList<Integer>> hm, int[][] puzzle)
     {
         int[] hmMRV = new int[hm.keySet().size()];
         for(int i = 0; i < hmMRV.length; i++)
@@ -249,7 +249,13 @@ public class Algorithm4 {
         int min = 99;
         for(int i = 0; i < hmMRV.length; i++)
         {
-            if(hmMRV[i] > 1 && hmMRV[i] < min)
+            if(hmMRV[i] == 1 && puzzle[i/9][i%9] == 0)
+            {
+                min = hmMRV[i];
+                key = i;
+                break;
+            }
+            else if(hmMRV[i] > 1 && hmMRV[i] < min)
             {
                 min = hmMRV[i];
                 key = i;
