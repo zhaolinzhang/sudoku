@@ -53,7 +53,7 @@ public class Algorithm5 {
                     //find next MRV
                     int count = findNextMRV(hm2, puzzle);
 
-                    //if MRV is done, find next empty
+                    //if MRV is done, find next empty (just in case, this code should never execute)
                     if (count < 0)
                         count = findNextEmpty(puzzle);
 
@@ -243,6 +243,7 @@ public class Algorithm5 {
     ///////////////////////////////////////////////////
     public int findNextMRV(HashMap<Integer, ArrayList<Integer>> hm, int[][] puzzle)
     {
+        //create a new array, to store the possible value's size of each grid
         int[] hmMRV = new int[hm.keySet().size()];
         for(int i = 0; i < hmMRV.length; i++)
         {
@@ -254,12 +255,14 @@ public class Algorithm5 {
         int min = 99;
         for(int i = 0; i < hmMRV.length; i++)
         {
+            //if the grid only contains 1 possible value, and that value is not filled yet
+            //return directly
             if(hmMRV[i] == 1 && puzzle[i/9][i%9] == 0)
             {
-                min = hmMRV[i];
                 key = i;
                 break;
             }
+            //else if the grid contains more than 1 possible value, find the min
             else if(hmMRV[i] > 1 && hmMRV[i] < min)
             {
                 min = hmMRV[i];
