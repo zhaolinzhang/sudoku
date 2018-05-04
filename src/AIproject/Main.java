@@ -13,7 +13,7 @@ public class Main {
 
         //input the file
         //read in txt file for the sudoku puzzle into the array puzzle
-        String data = readtxtasstring("/Users/JackZhang/Documents/OneDrive/文档/CS580/project/Easy1.txt");
+        String data = readtxtasstring("/Users/JackZhang/Documents/OneDrive/文档/CS580/project/Hard1.txt");
         String[] dataParts = data.split("\\s+");
         for (int i = 0; i < 81; i++) {
             puzzle[i / 9][i % 9] = Integer.parseInt(dataParts[i]);

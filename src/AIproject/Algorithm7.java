@@ -90,6 +90,13 @@ public class Algorithm7 {
                 return false;
         }
 
+        //if the 3X3 cube has duplication
+        for (int i = 0; i < puzzle.length; i++)
+        {
+            if(puzzle[3*(row/3)+(i/3)][3*(col/3)+(i%3)] == val)
+                return false;
+        }
+
         return true;
     }
 
@@ -217,6 +224,16 @@ public class Algorithm7 {
                     if (hm.get(row*9+i).contains(value))
                     {
                         hm.get(row*9+i).remove(new Integer(value));
+                        AC3_check(hm);
+                    }
+                }
+
+                //eliminate same element in 3X3 cube
+                for (int i = 0; i < 9 && i != ((row%3)*3 + (col%3)); i++)
+                {
+                    if (hm.get(9*(3*(row/3)+(i/3)) + 3*(col/3)+(i%3)).contains(value))
+                    {
+                        hm.get(9*(3*(row/3)+(i/3)) + 3*(col/3)+(i%3)).remove(new Integer(value));
                         AC3_check(hm);
                     }
                 }

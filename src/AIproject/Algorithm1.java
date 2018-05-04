@@ -75,6 +75,13 @@ public class Algorithm1 {
                 return false;
         }
 
+        //if the 3X3 cube has duplication
+        for (int i = 0; i < puzzle.length; i++)
+        {
+            if(puzzle[3*(row/3)+(i/3)][3*(col/3)+(i%3)] == val)
+                return false;
+        }
+
         return true;
     }
 
