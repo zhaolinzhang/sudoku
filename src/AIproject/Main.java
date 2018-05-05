@@ -123,6 +123,18 @@ public class Main {
                 return false;
         }
 
+        for(int i = 0; i < 81; i++)
+        {
+            hs.clear();
+            int row = i/9;
+            int col = i%9;
+            for(int j = 0; j < 9; j++)
+            {
+                if(!hs.add(inputpuzzle[3*(row/3)+(j/3)][3*(col/3)+(j%3)]))
+                    return false;
+            }
+        }
+
         return true;
     }
 }

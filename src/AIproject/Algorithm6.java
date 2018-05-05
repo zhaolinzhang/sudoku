@@ -44,8 +44,8 @@ public class Algorithm6 {
 
             //compare score, if new score is larger (conditional), flip back
             int nextScore = evaluateBoard(puzzle);
-            if (Math.exp((currentScore-nextScore)/T) < (((double)randomGenerator(0,1000))/1000))
-            //if (nextScore > currentScore)
+            //if (Math.exp((currentScore-nextScore)/T) < (((double)randomGenerator(0,1000))/1000))
+            if (nextScore > currentScore)
             {
                 int temp2 = puzzle[fliprow1][flipcol1];
                 puzzle[fliprow1][flipcol1] = puzzle[fliprow2][flipcol2];
@@ -127,6 +127,19 @@ public class Algorithm6 {
             for(int j = 0; j < 9; j++)
             {
                 if(!hs.add(puzzle[j][i]))
+                    score++;
+            }
+        }
+
+        //evaluate 3X3 cube
+        for(int i = 0; i < 81; i++)
+        {
+            hs.clear();
+            int row = i/9;
+            int col = i%9;
+            for(int j = 0; j < 9; j++)
+            {
+                if(!hs.add(puzzle[3*(row/3)+(j/3)][3*(col/3)+(j%3)]))
                     score++;
             }
         }
