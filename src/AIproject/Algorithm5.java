@@ -27,6 +27,7 @@ public class Algorithm5 {
         return flag;
     }
 
+    //recursive function call
     public boolean solve(int[][] puzzle, int row, int col, HashMap<Integer, ArrayList<Integer>> hm)
     {
         //if the puzzle is full, meaning sudoku is successfully solved
@@ -70,6 +71,7 @@ public class Algorithm5 {
         return false;
     }
 
+    //determine if the puzzle has fully filled
     public boolean isFull(int[][] puzzle)
     {
         for (int i = 0; i < puzzle.length; i++)
@@ -111,6 +113,7 @@ public class Algorithm5 {
         return true;
     }
 
+    //find next empty grid
     public int findNextEmpty(int[][] puzzle)
     {
         int i = 0;
@@ -146,6 +149,8 @@ public class Algorithm5 {
             }
         }
     }
+
+    //function will be called when there is a new number fill in
     public void FC_add(int row, int col, int input, HashMap<Integer, ArrayList<Integer>> hm)
     {
         //test if hash map contains the key, if not, return false
@@ -173,6 +178,15 @@ public class Algorithm5 {
                     if (hm.get(row*9+i).contains(input))
                     {
                         hm.get(row*9+i).remove(new Integer(input));
+                    }
+                }
+
+                //eliminate 3X3
+                for (int i = 0; i < 9; i++)
+                {
+                    if(hm.get(9*(3*(row/3)+(i/3)) + 3*(col/3)+(i%3)).contains(input))
+                    {
+                        hm.get(9*(3*(row/3)+(i/3)) + 3*(col/3)+(i%3)).remove(new Integer(input));
                     }
                 }
 

@@ -171,6 +171,15 @@ public class Algorithm4 {
                     }
                 }
 
+                //eliminate 3X3
+                for (int i = 0; i < 9; i++)
+                {
+                    if(hm.get(9*(3*(row/3)+(i/3)) + 3*(col/3)+(i%3)).contains(input))
+                    {
+                        hm.get(9*(3*(row/3)+(i/3)) + 3*(col/3)+(i%3)).remove(new Integer(input));
+                    }
+                }
+
                 //add input back
                 hm.get(row*9+col).add(input);
             }

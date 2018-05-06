@@ -44,8 +44,8 @@ public class Algorithm6 {
 
             //compare score, if new score is larger (conditional), flip back
             int nextScore = evaluateBoard(puzzle);
-            //if (Math.exp((currentScore-nextScore)/T) < (((double)randomGenerator(0,1000))/1000))
-            if (nextScore > currentScore)
+            if (Math.exp((currentScore-nextScore)/T) < (((double)randomGenerator(0,1000))/1000))
+            //if (nextScore > currentScore)
             {
                 int temp2 = puzzle[fliprow1][flipcol1];
                 puzzle[fliprow1][flipcol1] = puzzle[fliprow2][flipcol2];
